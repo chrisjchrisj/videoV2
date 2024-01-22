@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "17840893528",
+    "project_id": "livesteama2",
+    "storage_bucket": "livesteama2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17840893528:android:fe8b6a43d147d7df0c642d",
+        "android_client_info": {
+          "package_name": "com.example.video"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN1t5KkKQyXDUaNfbPp9mJ51yn3y8myio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
