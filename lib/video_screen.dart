@@ -71,7 +71,8 @@ class _sendVideoState extends State<sendVideo> {
   Future<String> SendVideo(File VideoPath) async {
     var postId = Uuid().v1();
     Reference ref =
-        FirebaseStorage.instance.ref().child('videos').child('$postId.mp4');
+        //FirebaseStorage.instance.ref().child('videos').child('$postId.mp4');
+          FirebaseStorage.instance.ref().child('user').child('userId').child('$postId.mp4');
     task = ref.putFile(VideoPath);
     TaskSnapshot snap = await task!;
     String downloadurl = await snap.ref.getDownloadURL();
