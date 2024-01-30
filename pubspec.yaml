@@ -30,13 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-      flutter_bloc: ^7.4.0
+  flutter_bloc: ^7.4.0
   equatable: ^2.0.3
-    
-    
-    
-    
-    
 
   chewie:
   video_player:
