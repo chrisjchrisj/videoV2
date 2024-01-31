@@ -4,6 +4,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+
+
+future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
