@@ -7,18 +7,11 @@ import 'package:video/camera_page.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 
 
-
-
-future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-
-
-
-
+//future main() async {
+  //WidgetsFlutterBinding.ensureInitialized();
+ // await Firebase.initializeApp();
+ // runApp(MyApp());
+//}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
