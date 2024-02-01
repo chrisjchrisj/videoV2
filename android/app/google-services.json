@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "17840893528",
+    "firebase_url": "https://livesteama2-default-rtdb.firebaseio.com",
     "project_id": "livesteama2",
     "storage_bucket": "livesteama2.appspot.com"
   },
