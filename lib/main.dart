@@ -8,6 +8,31 @@ import 'package:get/get.dart';
 import 'package:to_do_app/res/routes/app_routes.dart';
 import 'package:to_do_app/view/sign%20up/sign_up.dart';
 
+
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      getPages: AppRoutes.routes(),
+    );
+  }
+}
+
+
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras();
@@ -32,20 +57,6 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      getPages: AppRoutes.routes(),
-    );
-}
-
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
@@ -66,3 +77,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
+
+
+
+
