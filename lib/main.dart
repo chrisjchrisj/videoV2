@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras();
-  Firebase.initializeApp();
+ // Firebase.initializeApp();
   runApp(App());
 }
 
