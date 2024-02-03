@@ -4,16 +4,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
+
+// Added-in log-in main.dart code starting here:
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:to_do_app/res/routes/app_routes.dart';
 import 'package:to_do_app/view/sign%20up/sign_up.dart';
 
+//void main()async{
+  //WidgetsFlutterBinding.ensureInitialized();
+ // await Firebase.initializeApp();
+  //runApp(const MyApp());
+//}
 
-void main()async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
-}
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -29,16 +36,23 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// End of added-in log-in main.dart code
 
-
-
+//void main() async {
+  //WidgetsFlutterBinding.ensureInitialized();
+  //camera = await availableCameras();
+  //Firebase.initializeApp();
+  //runApp(App());
+//}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras();
- // Firebase.initializeApp();
+  Firebase.initializeApp();
   runApp(App());
 }
+
+
 
 class App extends StatelessWidget {
   const App({
@@ -77,9 +91,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
-
-
-
-
