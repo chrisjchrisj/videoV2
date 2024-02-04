@@ -65,7 +65,7 @@ class App extends StatelessWidget {
 
 //class _MyAppState extends State<MyApp> {
   //@override
- // Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Scaffold(
       body: const Center(
         child: Text(
@@ -81,7 +81,7 @@ class App extends StatelessWidget {
         label: const Text('start'),
       ),
     );
-  //}
+ }
 //}
 
 
