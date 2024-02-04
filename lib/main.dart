@@ -60,12 +60,12 @@ class App extends StatelessWidget {
       ),
       getPages: AppRoutes.routes(),
     );
-  }
+ // }
 //}
 
 //class _MyAppState extends State<MyApp> {
   //@override
-  Widget build(BuildContext context) {
+  //Widget build(BuildContext context) {
     return Scaffold(
       body: const Center(
         child: Text(
@@ -83,7 +83,7 @@ class App extends StatelessWidget {
     );
   }
 }
-
+}
 
 
 
