@@ -4,55 +4,31 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
-
-// Added-in log-in main.dart code starting here:
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/res/routes/app_routes.dart';
-import 'package:to_do_app/view/sign%20up/sign_up.dart';
+//import 'package:to_do_app/res/routes/app_routes.dart';
+//import 'package:to_do_app/view/sign%20up/sign_up.dart';
+
 
 //void main()async{
-  //WidgetsFlutterBinding.ensureInitialized();
+ // WidgetsFlutterBinding.ensureInitialized();
  // await Firebase.initializeApp();
-  //runApp(const MyApp());
+ // runApp(const MyApp());
 //}
-
-
-
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      getPages: AppRoutes.routes(),
-    );
-  }
-}
-// End of added-in log-in main.dart code
 
 //void main() async {
-  //WidgetsFlutterBinding.ensureInitialized();
+ // WidgetsFlutterBinding.ensureInitialized();
   //camera = await availableCameras();
-  //Firebase.initializeApp();
-  //runApp(App());
+ // Firebase.initializeApp();
+ // runApp(App());
 //}
 
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  camera = await availableCameras();
-  Firebase.initializeApp();
-  runApp(App());
+WidgetsFlutterBinding.ensureInitialized();
+camera = await availableCameras();
+await Firebase.initializeApp();
+runApp(App());
 }
-
-
 
 class App extends StatelessWidget {
   const App({
@@ -70,6 +46,26 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      getPages: AppRoutes.routes(),
+    );
+  }
+}
+
+
+
+
+
 
 class _MyAppState extends State<MyApp> {
   @override
@@ -91,3 +87,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
+
+
+
+
