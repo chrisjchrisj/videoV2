@@ -35,8 +35,8 @@ class App extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  //@override
- // Widget build(BuildContext context) {
+ @override
+ Widget build(BuildContext context) {
   //  return MaterialApp(home: MyApp());
   //}
 //}
@@ -50,8 +50,8 @@ class App extends StatelessWidget {
 
 //class MyApp extends StatelessWidget {
   //const MyApp({super.key});
-  @override
-  Widget build(BuildContext context) {
+  //@override
+  //Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -60,12 +60,12 @@ class App extends StatelessWidget {
       ),
       getPages: AppRoutes.routes(),
     );
- // }
-//}
+  }
+}
 
 //class _MyAppState extends State<MyApp> {
   //@override
-  //Widget build(BuildContext context) {
+ // Widget build(BuildContext context) {
     return Scaffold(
       body: const Center(
         child: Text(
@@ -81,8 +81,21 @@ class App extends StatelessWidget {
         label: const Text('start'),
       ),
     );
-  }
-}
+  //}
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
