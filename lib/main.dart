@@ -41,11 +41,12 @@ class App extends StatelessWidget {
   }
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-  @override
-  _MyAppState createState() => _MyAppState();
-}
+//3rd attempt
+//class MyApp extends StatefulWidget {
+ // const MyApp({Key? key}) : super(key: key);
+ // @override
+ // _MyAppState createState() => _MyAppState();
+//}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -61,11 +62,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
 
 class _MyAppState extends State<MyApp> {
   @override
