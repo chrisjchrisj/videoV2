@@ -35,11 +35,11 @@ class App extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: MyApp());
-  }
-}
+  //@override
+ // Widget build(BuildContext context) {
+  //  return MaterialApp(home: MyApp());
+  //}
+//}
 
 //3rd attempt
 //class MyApp extends StatefulWidget {
@@ -48,8 +48,8 @@ class App extends StatelessWidget {
  // _MyAppState createState() => _MyAppState();
 //}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+//class MyApp extends StatelessWidget {
+  //const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -61,10 +61,10 @@ class MyApp extends StatelessWidget {
       getPages: AppRoutes.routes(),
     );
   }
-}
+//}
 
-class _MyAppState extends State<MyApp> {
-  @override
+//class _MyAppState extends State<MyApp> {
+  //@override
   Widget build(BuildContext context) {
     return Scaffold(
       body: const Center(
