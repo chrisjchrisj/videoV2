@@ -76,7 +76,7 @@ class App extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => cameraScreen()));
+              //CupertinoPageRoute(builder: (context) => cameraScreen()));
         },
         label: const Text('start'),
       ),
