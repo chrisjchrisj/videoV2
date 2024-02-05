@@ -8,8 +8,8 @@ import 'package:video/camera_page.dart';
 //Added-In Flutter-AuthX code
 
 import 'package:get/get.dart';
-import 'package:to_do_app/res/routes/app_routes.dart';
-import 'package:to_do_app/view/sign%20up/sign_up.dart';
+import 'package:res/routes/app_routes.dart';
+import 'package:view/sign%20up/sign_up.dart';
 
 // void main()async{
 // WidgetsFlutterBinding.ensureInitialized();
