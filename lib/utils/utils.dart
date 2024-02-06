@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/res/app_color.dart';
+import 'package:video/res/app_color.dart';
 
 class Utils{
 
