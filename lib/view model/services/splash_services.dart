@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:to_do_app/res/routes/routes.dart';
+import 'package:video/res/routes/routes.dart';
 
 class SplashServices{
   static void checkLogin()async{
