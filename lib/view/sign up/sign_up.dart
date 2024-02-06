@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/view/sign%20up/components/signup_body.dart';
+import 'package:video/view/sign%20up/components/signup_body.dart';
 import '../../res/app_color.dart';
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
