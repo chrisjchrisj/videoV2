@@ -10,6 +10,8 @@ import 'package:video/camera_page.dart';
 import 'package:get/get.dart';
 //import 'package:res/routes/app_routes.dart';
 //import 'package:view/sign%20up/sign_up.dart';
+import 'package:video/res/routes/app_routes.dart';
+import 'package:video/view/sign%20up/sign_up.dart';
 
 // void main()async{
 // WidgetsFlutterBinding.ensureInitialized();
