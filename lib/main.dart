@@ -109,11 +109,11 @@ Future<void> main() async {
 //}
 //}
 
-class MyApp extends StatefulWidget {
-const MyApp({Key? key}) : super(key: key);
-@override
-_MyAppState createState() => _MyAppState();
-}
+//class MyApp extends StatefulWidget {
+//const MyApp({Key? key}) : super(key: key);
+//@override
+//_MyAppState createState() => _MyAppState();
+//}
 
 class _MyAppState extends State<MyApp> {
 @override
@@ -121,7 +121,7 @@ Widget build(BuildContext context) {
 return Scaffold(
 body: const Center(
 child: Text(
-'Flutter camera and video recording app',
+'FLUTTER CAMERA AND RECORDING APP',
 style: TextStyle(fontSize: 20),
 ),
 ),
