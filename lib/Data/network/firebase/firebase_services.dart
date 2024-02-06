@@ -3,9 +3,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/Data/shared%20pref/shared_pref.dart';
-import 'package:to_do_app/utils/utils.dart';
-import 'package:to_do_app/view%20model/controller/signin_controller.dart';
+import 'package:video/Data/shared%20pref/shared_pref.dart';
+import 'package:video/utils/utils.dart';
+import 'package:video/view%20model/controller/signin_controller.dart';
 import '../../../view model/controller/signup_controller.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 class FirebaseServices {
