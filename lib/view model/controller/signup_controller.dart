@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/Data/network/firebase/firebase_services.dart';
-import 'package:to_do_app/utils/utils.dart';
+import 'package:video/Data/network/firebase/firebase_services.dart';
+import 'package:video/utils/utils.dart';
 
 class SignupController extends GetxController{
   RxBool nameFocus=false.obs;
