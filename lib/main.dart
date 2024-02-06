@@ -20,7 +20,8 @@ Future<void> main() async {
   } on CameraException catch (e) {
     print('Error in fetching the cameras: $e');
   }
-  runApp(const MyApp());
+  //runApp(const MyApp());
+  runApp(const App());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,47 +46,6 @@ class MyApp extends StatelessWidget {
 // Remove or comment out the second MyApp class and other duplicated elements if necessary.
 
 // Adjust the rest of your code to integrate the camera funct
-
-
-
-
-
-
-// void main()async{
-// WidgetsFlutterBinding.ensureInitialized();
-// await Firebase.initializeApp();
-// runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-// const MyApp({super.key});
-// @override
-// Widget build(BuildContext context) {
-// return GetMaterialApp(
-// debugShowCheckedModeBanner: false,
-// theme: ThemeData(
-// colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-// useMaterial3: true,
-// ),
-// getPages: AppRoutes.routes(),
-// );
-// }
-// }
-
-//End Added-In Flutter-AuthX code
-
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  try {
-    // Attempt to get the available cameras.
-    // Note: You might need to handle permissions before calling this.
-    cameras = await availableCameras();
-  } on CameraException catch (e) {
-    print('Error in fetching the cameras: $e');
-  }
-  runApp(const MyApp());
-}
 
 
 //void main() async {
