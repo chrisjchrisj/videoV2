@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/view%20model/controller/signin_controller.dart';
-import 'package:to_do_app/view%20model/controller/signup_controller.dart';
-import 'package:to_do_app/view/sign%20up/components/textfield_sufiix.dart';
+import 'package:video/view%20model/controller/signin_controller.dart';
+import 'package:video/view%20model/controller/signup_controller.dart';
+import 'package:video/view/sign%20up/components/textfield_sufiix.dart';
 import '../../../res/app_color.dart';
 
 class InputField extends StatelessWidget {
