@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:to_do_app/res/routes/routes.dart';
-import 'package:to_do_app/view%20model/controller/signin_controller.dart';
-import 'package:to_do_app/view/sign%20in/components/signin_bar.dart';
-import 'package:to_do_app/view/sign%20in/components/signin_input_form.dart';
+import 'package:video/res/routes/routes.dart';
+import 'package:video/view%20model/controller/signin_controller.dart';
+import 'package:video/view/sign%20in/components/signin_bar.dart';
+import 'package:video/view/sign%20in/components/signin_input_form.dart';
 import '../../sign up/components/button.dart';
 import '../../sign up/components/signup_options.dart';
 
