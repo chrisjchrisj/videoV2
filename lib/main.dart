@@ -41,7 +41,7 @@ class App extends StatelessWidget {
     return Scaffold(
       body: const Center(
         child: Text(
-          'Flutter camera and video recording app',
+          'Flutter Camera and Video Recording app',
           style: TextStyle(fontSize: 20),
         ),
       ),
@@ -124,16 +124,16 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 }
 
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
+//class DisplayPictureScreen extends StatelessWidget {
+ // final String imagePath;
 
-  const DisplayPictureScreen({Key? key, required this.imagePath}) : super(key: key);
+  //const DisplayPictureScreen({Key? key, required this.imagePath}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
-      body: Image.file(File(imagePath)),
-    );
-  }
-}
+ // @override
+ // Widget build(BuildContext context) {
+   // return Scaffold(
+    //  appBar: AppBar(title: const Text('Display the Picture')),
+    //  body: Image.file(File(imagePath)),
+  //  );
+ // }
+//}
