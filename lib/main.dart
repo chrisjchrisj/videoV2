@@ -1,10 +1,12 @@
 import 'dart:io';
-//import 'package:camera/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
-import 'package:video/video_screen.dart';
+import 'package:video_uploader/video_uploader.dart';
+
+//var video = await ApiVideoUploader.uploadWithUploadToken("YOUR_UPLOAD_TOKEN", "path/to/my-video.mp4");
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
