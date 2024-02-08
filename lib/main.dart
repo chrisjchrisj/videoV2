@@ -13,8 +13,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 const primaryColor = Color(0xFFFA5B30);
 const secondaryColor = Color(0xFFFFB39E);
 
+//lib/main.dart:17:13: Error: 'await' can only be used in 'async' or 'async*' methods.
+//var video = await ApiVideoUploader.uploadWithUploadToken("AIzaSyAN1t5KkKQyXDUaNfbPp9mJ51yn3y8myio", "gs://live123.appspot.com/user/Uuid/postId.mp4");
+
 //var video = await ApiVideoUploader.uploadWithUploadToken("YOUR_UPLOAD_TOKEN", "path/to/my-video.mp4");
-var video = await ApiVideoUploader.uploadWithUploadToken("AIzaSyAN1t5KkKQyXDUaNfbPp9mJ51yn3y8myio", "gs://live123.appspot.com/user/Uuid/postId.mp4");
+var video = ApiVideoUploader.uploadWithUploadToken("AIzaSyAN1t5KkKQyXDUaNfbPp9mJ51yn3y8myio", "gs://live123.appspot.com/user/Uuid/postId.mp4");
 
 // Inside the UploaderPageState class
 void log(String message) {
