@@ -13,6 +13,13 @@ const secondaryColor = Color(0xFFFFB39E);
 
 //var video = await ApiVideoUploader.uploadWithUploadToken("YOUR_UPLOAD_TOKEN", "path/to/my-video.mp4");
 
+import 'dart:developer' as developer;
+
+// Inside the UploaderPageState class
+void log(String message) {
+  developer.log(message);
+}
+
 
 void main() {
   runApp(const UploaderDemo());
