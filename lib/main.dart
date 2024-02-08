@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:developer' as developer;
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +9,13 @@ import 'package:video/camera_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_uploader/video_uploader.dart';
 
+
 const primaryColor = Color(0xFFFA5B30);
 const secondaryColor = Color(0xFFFFB39E);
 
 //var video = await ApiVideoUploader.uploadWithUploadToken("YOUR_UPLOAD_TOKEN", "path/to/my-video.mp4");
 
-import 'dart:developer' as developer;
+
 
 // Inside the UploaderPageState class
 void log(String message) {
