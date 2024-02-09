@@ -1,3 +1,4 @@
+//To Record Video
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:developer';
@@ -331,7 +332,7 @@ class _cameraScreenState extends State<cameraScreen> {
                               });
                             }))
                     : Text(
-                        'Hold for Video,Tap for Photo',
+                        'Tap to Start Recording & Tap to Stop Recording',
                         style: TextStyle(color: Colors.grey),
                       )
               ],
