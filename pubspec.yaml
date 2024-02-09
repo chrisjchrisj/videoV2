@@ -61,6 +61,7 @@ dependencies:
   flutter_camera: ^1.0.0
   image_picker: ^1.0.4
   video_uploader: ^1.2.1
+  flutter_upchunk: ^2.0.2
 
 dev_dependencies:
   flutter_test:
