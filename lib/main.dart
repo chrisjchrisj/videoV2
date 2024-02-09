@@ -10,6 +10,20 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_uploader/video_uploader.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'dart:convert';
+
+
+void main() {
+  var myCustomObject = MyCustomObject();
+
+  developer.log(
+    'log me',
+    name: 'my.app.category',
+    error: jsonEncode(myCustomObject),
+  );
+}
+
+
 const primaryColor = Color(0xFFFA5B30);
 const secondaryColor = Color(0xFFFFB39E);
 
