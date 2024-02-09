@@ -233,45 +233,71 @@ class _cameraScreenState extends State<cameraScreen> {
                                 ))
                       ],
                     ),
-                    GestureDetector(
-                        onLongPress: () async {
-                          await _cameraController!.startVideoRecording();
+        GestureDetector(
+  onTap: () async {
+    if (isrecording) {
+      // If already recording, stop recording
+      photo = await _cameraController!.stopVideoRecording();
+      print(photo!.path);
+      Navigator.push(context, CupertinoPageRoute(builder: (_) {
+        return sendVideo(
+          imagepath: photo!,
+        );
+      }));
+    } else {
+      // If not recording, start recording
+      await _cameraController!.startVideoRecording();
+    }
+    setState(() {
+      isrecording = !isrecording; // Toggle recording state
+    });
+  },
+  child: Icon(
+    isrecording ? Icons.radio_button_on : Icons.panorama_fish_eye,
+    color: isrecording ? Colors.red : Colors.white,
+    size: 70,
+  ),
+),            
 
-                          setState(() {
-                            isrecording = true;
-                          });
-                        },
-                        onLongPressUp: () async {
-                          photo = await _cameraController!.stopVideoRecording();
-                          print(photo!.path);
-                          Navigator.push(context,
-                              CupertinoPageRoute(builder: (_) {
-                            return sendVideo(
-                              imagepath: photo!,
-                            );
-                          }));
+                    //GestureDetector(
+                        //onLongPress: () async {
+                          //await _cameraController!.startVideoRecording();
+
+                         // setState(() {
+                         //   isrecording = true;
+                         // });
+                        //},
+                       // onLongPressUp: () async {
+                         // photo = await _cameraController!.stopVideoRecording();
+                         // print(photo!.path);
+                         // Navigator.push(context,
+                           //   CupertinoPageRoute(builder: (_) {
+                          //  return sendVideo(
+                         //     imagepath: photo!,
+                          //  );
+                         // }));
                           // Get.to(
                           //     sendVideo(
                           //       imagepath: photo!,
                           //       ChatId: widget.chatId,
                           //     ),
                           //     transition: Transition.rightToLeft);
-                          setState(() {
-                            isrecording = false;
-                          });
-                        },
-                        onTap: () {
-                          if (!isrecording) {
-                            TakePhoto();
-                          }
-                        },
-                        child: Icon(
-                          isrecording
-                              ? Icons.radio_button_on
-                              : Icons.panorama_fish_eye,
-                          color: isrecording ? Colors.red : Colors.white,
-                          size: 70,
-                        )),
+                         // setState(() {
+                          //  isrecording = false;
+                         // });
+                       // },
+                        //onTap: () {
+                         // if (!isrecording) {
+                           // TakePhoto();
+                        //  }
+                       // },
+                       // child: Icon(
+                         // isrecording
+                         //     ? Icons.radio_button_on
+                          //    : Icons.panorama_fish_eye,
+                         // color: isrecording ? Colors.red : Colors.white,
+                          //size: 70,
+                        //)),
                     IconButton(
                         onPressed: () async {
                           setState(() {
