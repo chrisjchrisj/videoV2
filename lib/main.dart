@@ -9,209 +9,131 @@ import 'package:video/camera_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_uploader/video_uploader.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
-import 'dart:convert';
+import 'package:flutter_upchunk/flutter_upchunk.dart';
 
 
 void main() {
-  var myCustomObject = MyCustomObject();
-
-  developer.log(
-    'log me',
-    name: 'my.app.category',
-    error: jsonEncode(myCustomObject),
-  );
+  runApp(MyApp());
 }
 
-
-const primaryColor = Color(0xFFFA5B30);
-const secondaryColor = Color(0xFFFFB39E);
-
-//lib/main.dart:17:13: Error: 'await' can only be used in 'async' or 'async*' methods.
-//var video = await ApiVideoUploader.uploadWithUploadToken("AIzaSyAN1t5KkKQyXDUaNfbPp9mJ51yn3y8myio", "gs://live123.appspot.com/user/Uuid/postId.mp4");
-
-//var video = await ApiVideoUploader.uploadWithUploadToken("YOUR_UPLOAD_TOKEN", "path/to/my-video.mp4");
-var video = ApiVideoUploader.uploadWithUploadToken("AIzaSyAN1t5KkKQyXDUaNfbPp9mJ51yn3y8myio", "gs://live123.appspot.com/user/Uuid/postId.mp4");
-
-// Inside the UploaderPageState class
-void log(String message) {
-  developer.log(message);
-}
-
-void main() {
-  runApp(const UploaderDemo());
-}
-
-class UploaderDemo extends StatelessWidget {
-  const UploaderDemo({Key? key}) : super(key: key);
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'UpChunk Demo',
       theme: ThemeData(
-        primaryColor: primaryColor,
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: primaryColor,
-          title: const Text('Uploader Example'),
-        ),
-        body: const UploaderPage(),
-      ),
+      home: MyHomePage(title: 'UpChunk Demo'),
     );
   }
 }
 
-class UploaderPage extends StatefulWidget {
-  const UploaderPage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  MyHomePage({ this.title = ''});
+
+  final String title;
 
   @override
-  UploaderPageState createState() => UploaderPageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class UploaderPageState extends State<UploaderPage> {
-  final _tokenTextController = TextEditingController();
-  final ImagePicker _picker = ImagePicker();
-  double _progressValue = 0;
-  bool _hasUploadStarted = false;
+class _MyHomePageState extends State<MyHomePage> {
+  // ADD ENDPOINT URL HERE
+  final _endPoint = 'gs://live123.appspot.com/user/Uuid/postId.mp4';
 
-  void setProgress(double value) async {
-    setState(() {
-      _progressValue = value;
-    });
+  final picker = ImagePicker();
+
+  int _progress = 0;
+  bool _uploadComplete = false;
+  String _errorMessage = '';
+
+  void _getFile() async {
+    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+
+    if (pickedFile == null) return;
+
+    _uploadFile(pickedFile);
   }
 
-  @override
-  void dispose() {
-    _tokenTextController.dispose();
-    super.dispose();
+  void _uploadFile(XFile fileToUpload) {
+    _progress = 0;
+    _uploadComplete = false;
+    _errorMessage = '';
+
+    UpChunk(
+      endPoint: _endPoint,
+      file: fileToUpload,
+      onProgress: (double progress) {
+        setState(() {
+          _progress = progress.ceil();
+        });
+      },
+      onError: (String message, int chunk, int attempts) {
+        setState(() {
+          _errorMessage = 'UpChunk error ?? ??:\n'
+            ' - Message: $message\n'
+            ' - Chunk: $chunk\n'
+            ' - Attempts: $attempts';
+        });
+      },
+      onSuccess: () {
+        setState(() {
+        _uploadComplete = true;
+        });
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
         child: Column(
           children: [
-            const SizedBox(
-              height: 52,
-            ),
-            TextField(
-              cursorColor: primaryColor,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 2.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor, width: 2.0),
-                ),
-                hintText: 'My video token',
-              ),
-              controller: _tokenTextController,
-            ),
-            MaterialButton(
-              color: primaryColor,
-              child: const Text(
-                "Pick Video",
+            if (!_uploadComplete)
+              Text(
+                'Uploaded: $_progress%',
                 style: TextStyle(
-                    color: Colors.white70, fontWeight: FontWeight.bold),
+                  fontSize: 24,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-              onPressed: () async {
-                var source = ImageSource.gallery;
-                XFile? image = await _picker.pickVideo(source: source);
-                if (image != null) {
-                  setState(() {
-                    _hasUploadStarted = true;
-                  });
-                  try {
-                    var video = await ApiVideoUploader.uploadWithUploadToken(
-                        _tokenTextController.text, image.path,
-                        onProgress: (progress) {
-                      log("Progress :$progress");
-                      setProgress(progress);
-                    });
-                    log("VideoId : ${video.videoId}");
-                    log("Title : ${video.title}");
-                    showSuccessSnackBar(
-                        context, "Video ${video.videoId} uploaded");
-                  } on Exception catch (e) {
-                    log("Failed to upload video: $e");
-                    showErrorSnackBar(
-                        context, "Failed to upload video: ${e.message}");
-                  } catch (e) {
-                    log("Failed to upload video: $e");
-                    showErrorSnackBar(context, "Failed to upload video $e");
-                  }
-                }
-              },
-            ),
-            _hasUploadStarted
-                ? LinearProgressIndicator(
-                    color: primaryColor,
-                    backgroundColor: secondaryColor,
-                    value: _progressValue,
-                  )
-                : Container(),
-            _hasUploadStarted
-                ? MaterialButton(
-                    color: primaryColor,
-                    child: const Text(
-                      "Cancel",
-                      style: TextStyle(
-                          color: Colors.white70, fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: () async {
-                      try {
-                        await ApiVideoUploader.cancelAll();
-                      } catch (e) {
-                        log("Failed to cancel video: $e");
-                      }
-                    },
-                  )
-                : Container(),
+
+            if (_uploadComplete)
+              Text(
+                'Upload complete! ??',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+            if (_errorMessage.isNotEmpty)
+              Text(
+                '$_errorMessage%',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.red,
+                ),
+              ),
           ],
         ),
       ),
-    );
-  }
-
-  void showSuccessSnackBar(BuildContext context, String message) {
-    showSnackBar(context, message, backgroundColor: Colors.green);
-  }
-
-  void showErrorSnackBar(BuildContext context, String message) {
-    showSnackBar(context, message,
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 60),
-        showCloseIcon: true);
-  }
-
-  void showSnackBar(BuildContext context, String message,
-      {Color? backgroundColor,
-      Duration duration = const Duration(seconds: 4),
-      bool showCloseIcon = false}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: backgroundColor,
-        duration: duration,
-        showCloseIcon: showCloseIcon,
+      floatingActionButton: FloatingActionButton(
+        onPressed: _getFile,
+        tooltip: 'Get File',
+        child: Icon(Icons.upload_file),
       ),
     );
   }
 }
-
-extension ErrorExtension on Exception {
-  String get message {
-    if (this is PlatformException) {
-      return (this as PlatformException).message ?? "Unknown error";
-    }
-    return toString();
-  }
-}
-
-
 
 
 
