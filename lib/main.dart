@@ -1,139 +1,107 @@
+import 'package:file_picker/file_picker.dart';
 import 'dart:io';
-import 'dart:developer' as developer;
-import 'package:camera/camera.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:video/camera_page.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:video_uploader/video_uploader.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_upchunk/flutter_upchunk.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:flutter/services.dart';
 
+Future<String> selectUploadFileTask(
+  String pathDir,
+  String uploadPlusName,
+  bool webBool,
+) async {
+  // Add your function code here!
 
-void main() {
-  runApp(MyApp());
-}
+  if (webBool == false) {
+    var result = await FilePicker.platform.pickFiles(allowMultiple: false);
+    if (result != null) {
+      final tempDir = await getTemporaryDirectory();
+      final tempPath = tempDir.path;
+      final fileName = basename(result.files.single.path!);
+      final newPath = '$tempPath/$fileName';
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'UpChunk Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'UpChunk Demo'),
-    );
-  }
-}
+      File(result.files.single.path!).copy(newPath);
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({ this.title = ''});
+      File file = File(newPath);
 
-  final String title;
+      FirebaseStorage storage = FirebaseStorage.instance;
+      String fileNameAnd = basename(file.path);
+      String newFileNameAnd = '$uploadPlusName-$fileNameAnd';
+      Reference storageReference =
+          storage.ref().child('$pathDir/$newFileNameAnd');
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+      UploadTask task = storageReference.putFile(file);
 
-class _MyHomePageState extends State<MyHomePage> {
-  // ADD ENDPOINT URL HERE
-  final _endPoint = 'gs://live123.appspot.com/user/Uuid/postId.mp4';
-
-  final picker = ImagePicker();
-
-  int _progress = 0;
-  bool _uploadComplete = false;
-  String _errorMessage = '';
-
-  void _getFile() async {
-    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
-
-    if (pickedFile == null) return;
-
-    _uploadFile(pickedFile);
-  }
-
-  void _uploadFile(XFile fileToUpload) {
-    _progress = 0;
-    _uploadComplete = false;
-    _errorMessage = '';
-
-    UpChunk(
-      endPoint: _endPoint,
-      file: fileToUpload,
-      onProgress: (double progress) {
-        setState(() {
-          _progress = progress.ceil();
+      task.snapshotEvents.listen((TaskSnapshot snapshot) {
+        double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+        int percentage = (progress * 100).round();
+        int updatedProgress =
+            percentage > 100 ? FFAppState().task + 7 : percentage;
+        int hungredProgress = updatedProgress > 100 ? 99 : updatedProgress;
+        FFAppState().update(() {
+          FFAppState().task =
+              hungredProgress; // AppState name "task". If necessary, replace with your name
         });
-      },
-      onError: (String message, int chunk, int attempts) {
-        setState(() {
-          _errorMessage = 'UpChunk error ?? ??:\n'
-            ' - Message: $message\n'
-            ' - Chunk: $chunk\n'
-            ' - Attempts: $attempts';
+      });
+
+      await task;
+
+      String downloadURL = await storageReference.getDownloadURL();
+
+      FFAppState().update(() {
+        FFAppState().task = 100;    // AppState name "task". If necessary, replace with your name
+      });
+      File fileToDelete = File(newPath);
+      await fileToDelete.delete();
+
+      return downloadURL;
+    } else {
+      return "File not selected";
+    }
+  } else {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      final PlatformFile file = result.files.first;
+
+      Uint8List fileBytes = file.bytes!;
+
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      String fileNameWeb = file.name!;
+      String newFileNameWeb = '$uploadPlusName-$fileNameWeb';
+      Reference storageReference =
+          storage.ref().child('$pathDir/$newFileNameWeb');
+
+      UploadTask task = storageReference.putData(fileBytes);
+
+      task.snapshotEvents.listen((TaskSnapshot snapshot) {
+        double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+        int percentage = (progress * 100).round();
+        int updatedProgress =
+            percentage > 100 ? FFAppState().task + 7 : percentage;
+        int hungredProgress = updatedProgress > 100 ? 99 : updatedProgress;
+        FFAppState().update(() {
+          FFAppState().task = hungredProgress;   // AppState name "task". If necessary, replace with your name
         });
-      },
-      onSuccess: () {
-        setState(() {
-        _uploadComplete = true;
-        });
-      },
-    );
-  }
+      });
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            if (!_uploadComplete)
-              Text(
-                'Uploaded: $_progress%',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
+      await task;
 
-            if (_uploadComplete)
-              Text(
-                'Upload complete! ??',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.green,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+      String downloadURL = await storageReference.getDownloadURL();
 
-            if (_errorMessage.isNotEmpty)
-              Text(
-                '$_errorMessage%',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.red,
-                ),
-              ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getFile,
-        tooltip: 'Get File',
-        child: Icon(Icons.upload_file),
-      ),
-    );
+      FFAppState().update(() {
+        FFAppState().task = 100;    // AppState name "task". If necessary, replace with your name
+      });
+
+      return downloadURL;
+    } else {
+      return "File not selected";
+    }
   }
 }
+
+
+
 
 
 
