@@ -24,7 +24,8 @@ class VideoStreamUploader {
   // Constructor
   VideoStreamUploader(CameraController cameraController, String storagePath) {
     _cameraController = cameraController;
-    _storageReference = FirebaseStorage.instance.ref().child(storagePath);
+    //_storageReference = FirebaseStorage.instance.ref().child(storagePath);
+    _storageReference = FirebaseStorage.instance.ref().child('user').child('Uuid').child('$postId.mp4');
   }
 
   // Start streaming and uploading the video
@@ -118,17 +119,6 @@ class _CameraScreenState extends State<CameraScreen> {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 //class sendVideo extends StatefulWidget {
  // XFile imagepath;
  // sendVideo({Key? key, required this.imagepath}) : super(key: key);
@@ -194,14 +184,14 @@ class _CameraScreenState extends State<CameraScreen> {
   //  Reference ref =
         //FirebaseStorage.instance.ref().child('videos').child('$postId.mp4');
           //FirebaseStorage.instance.ref().child('user').child('userId').child('$postId.mp4');
-          FirebaseStorage.instance.ref().child('user').child('Uuid').child('$postId.mp4');
-    task = ref.putFile(VideoPath);
-    TaskSnapshot snap = await task!;
-    String downloadurl = await snap.ref.getDownloadURL();
-    return downloadurl;
-  }
+          //FirebaseStorage.instance.ref().child('user').child('Uuid').child('$postId.mp4');
+    //task = ref.putFile(VideoPath);
+   // TaskSnapshot snap = await task!;
+   // String downloadurl = await snap.ref.getDownloadURL();
+   // return downloadurl;
+//  }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
