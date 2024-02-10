@@ -121,11 +121,11 @@ class _CameraScreenState extends State<CameraScreen> {
 
 
 //class sendVideo extends StatefulWidget {
- // XFile imagepath;
- // sendVideo({Key? key, required this.imagepath}) : super(key: key);
+ //XFile imagepath;
+ //sendVideo({Key? key, required this.imagepath}) : super(key: key);
 
- // @override
- // State<sendVideo> createState() => _sendVideoState();
+// @override
+// State<sendVideo> createState() => _sendVideoState();
 //}
 
 //class _sendVideoState extends State<sendVideo> {
