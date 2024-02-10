@@ -14,6 +14,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:typed_data';
 
 // Create a class to handle the video streaming and uploading
 class VideoStreamUploader {
