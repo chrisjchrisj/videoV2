@@ -18,7 +18,6 @@ class sendVideo extends StatefulWidget {
 
 class _sendVideoState extends State<sendVideo> {
   VideoPlayerController? _controller;
-  UploadTask? task;
   bool _isUploading = false;
   late Reference _storageReference;
 
@@ -38,7 +37,10 @@ class _sendVideoState extends State<sendVideo> {
     super.dispose();
   }
 
-  Future<void> _uploadVideo() async {
+  Future<void> _stopRecordingAndUpload() async {
+    // Stop the video recording
+    await _controller!.pause();
+
     setState(() {
       _isUploading = true;
     });
@@ -69,9 +71,6 @@ class _sendVideoState extends State<sendVideo> {
   }
 
   Future<void> _sendVideoStream() async {
-    // Start streaming the video
-    await _controller!.play();
-
     // Get the video file as bytes
     Uint8List bytes = await File(widget.imagepath.path).readAsBytes();
 
@@ -84,9 +83,6 @@ class _sendVideoState extends State<sendVideo> {
 
     // Print the download URL
     print('Download URL: $downloadUrl');
-
-    // Stop playing the video
-    await _controller!.pause();
   }
 
   @override
@@ -95,8 +91,8 @@ class _sendVideoState extends State<sendVideo> {
       floatingActionButton: _isUploading
           ? CircularProgressIndicator()
           : FloatingActionButton.extended(
-              onPressed: _uploadVideo,
-              label: Text('Upload'),
+              onPressed: _stopRecordingAndUpload,
+              label: Text('Stop and Upload'),
             ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
