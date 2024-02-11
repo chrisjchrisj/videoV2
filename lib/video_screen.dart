@@ -80,15 +80,24 @@ class _sendVideoState extends State<sendVideo> {
     TaskSnapshot snapshot = await _storageReference.child('$postId.mp4').putData(
       bytes,
       // Listen to the upload progress
-      UploadTaskPlatform.instance!.storage.TaskSnapshotListener(
-        onTaskSnapshot: (snapshot) {
-          double progress = snapshot.bytesTransferred / snapshot.totalBytes;
-          setState(() {
-            _uploadProgress = progress;
-          });
-        },
-      ),
-    );
+      //UploadTaskPlatform.instance!.storage.TaskSnapshotListener(
+        //onTaskSnapshot: (snapshot) {
+          //double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+          //setState(() {
+           //_uploadProgress = progress;
+          //});
+        //},
+      //),
+   // );
+    
+    onProgress: (snapshot) {
+      double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+      setState(() {
+        _uploadProgress = progress;
+      });
+},
+    
+    
 
     // Get the download URL of the uploaded video
     String downloadUrl = await snapshot.ref.getDownloadURL();
