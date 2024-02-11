@@ -29,7 +29,8 @@ class _sendVideoState extends State<sendVideo> {
       ..initialize().then((_) {
         setState(() {});
       });
-    _storageReference = FirebaseStorage.instance.ref().child('videos');
+    //_storageReference = FirebaseStorage.instance.ref().child('videos');
+    _storageReference = FirebaseStorage.instance.ref().child('videos').child('$postId.mp4');
   }
 
   @override
