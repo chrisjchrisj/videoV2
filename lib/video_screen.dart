@@ -70,27 +70,27 @@ class _sendVideoState extends State<sendVideo> {
       });
     }
   }
-  
-  
   Future<void> _sendVideoStream() async {
     // Get the video file as bytes
     Uint8List bytes = await File(widget.imagepath.path).readAsBytes();
   
     // Upload the video bytes to Firebase Storage
     var postId = Uuid().v1();
-    TaskSnapshot snapshot = await _storageReference.child('$postId.mp4').putData(
-      bytes,
-      // Listen to the upload progress
-      PutDataProgressListener((TaskSnapshot snapshot) {
-        double progress = snapshot.bytesTransferred / snapshot.totalBytes;
-        setState(() {
-          _uploadProgress = progress;
-        });
-      }),
-    );
+    UploadTask task = _storageReference.child('$postId.mp4').putData(bytes);
+  
+    // Track the upload progress
+    task.snapshotEvents.listen((TaskSnapshot snapshot) {
+      double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+      setState(() {
+        _uploadProgress = progress;
+      });
+    });
+  
+    // Wait for the upload to complete
+    await task;
   
     // Get the download URL of the uploaded video
-    String downloadUrl = await snapshot.ref.getDownloadURL();
+    String downloadUrl = await _storageReference.child('$postId.mp4').getDownloadURL();
   
     // Print the download URL
     print('Download URL: $downloadUrl');
