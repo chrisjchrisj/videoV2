@@ -19,6 +19,7 @@ class sendVideo extends StatefulWidget {
 class _sendVideoState extends State<sendVideo> {
   VideoPlayerController? _controller;
   bool _isUploading = false;
+  double _uploadProgress = 0;
   late Reference _storageReference;
 
   @override
@@ -76,7 +77,18 @@ class _sendVideoState extends State<sendVideo> {
 
     // Upload the video bytes to Firebase Storage
     var postId = Uuid().v1();
-    TaskSnapshot snapshot = await _storageReference.child('$postId.mp4').putData(bytes);
+    TaskSnapshot snapshot = await _storageReference.child('$postId.mp4').putData(
+      bytes,
+      // Listen to the upload progress
+      UploadTaskPlatform.instance!.storage.TaskSnapshotListener(
+        onTaskSnapshot: (snapshot) {
+          double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+          setState(() {
+            _uploadProgress = progress;
+          });
+        },
+      ),
+    );
 
     // Get the download URL of the uploaded video
     String downloadUrl = await snapshot.ref.getDownloadURL();
@@ -90,9 +102,9 @@ class _sendVideoState extends State<sendVideo> {
     return Scaffold(
       floatingActionButton: _isUploading
           ? CircularProgressIndicator()
-          : FloatingActionButton.extended(
+          : FloatingActionButton(
               onPressed: _stopRecordingAndUpload,
-              label: Text('Stop and Upload'),
+              child: Icon(Icons.stop),
             ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -140,6 +152,15 @@ class _sendVideoState extends State<sendVideo> {
                 child: VideoPlayer(_controller!),
               ),
             ),
+            if (_isUploading)
+              Positioned.fill(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    value: _uploadProgress,
+                    strokeWidth: 10,
+                  ),
+                ),
+              ),
             SizedBox(
               height: 20,
             ),
