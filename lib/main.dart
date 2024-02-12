@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       body: const Center(
         child: Text(
-          'Flutter camera and video recording app',
+          'Video Recording/Streaming App',
           style: TextStyle(fontSize: 20),
         ),
       ),
