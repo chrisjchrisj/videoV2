@@ -299,7 +299,7 @@ class _cameraScreenState extends State<cameraScreen> {
                               }),
                         )
                       : Text(
-                          'Tap to Start Recording & Tap to Stop Recording',
+                          'Tap: Start Recording & Tap: Stop Recording',
                           style: TextStyle(color: Colors.grey),
                         )
                 ],

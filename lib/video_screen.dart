@@ -55,6 +55,8 @@ class _sendVideoState extends State<sendVideo> {
           backgroundColor: Colors.green,
         ),
       );
+      // Navigate back to camera_page.dart after showing success message
+      Navigator.pop(context);
     } catch (e) {
       print(e);
       // Show upload failure message
@@ -64,6 +66,8 @@ class _sendVideoState extends State<sendVideo> {
           backgroundColor: Colors.red,
         ),
       );
+      // Navigate back to camera_page.dart after showing failure message
+      Navigator.pop(context);
     } finally {
       setState(() {
         _isUploading = false;
