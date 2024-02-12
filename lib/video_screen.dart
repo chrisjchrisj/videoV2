@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class sendVideo extends StatefulWidget {
   XFile imagepath;
@@ -74,6 +75,26 @@ class _sendVideoState extends State<sendVideo> {
       });
     }
   }
+  
+ 
+  
+  Future<void> resendVerificationEmail() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await user.sendEmailVerification();
+        print('Verification email sent');
+      } else {
+        print('User not signed in');
+      }
+    } catch (e) {
+      print('Error sending verification email: $e');
+    }
+  }
+
+  
+  
+  
 
   Future<void> _sendVideoStream() async {
     // Get the video file as bytes
