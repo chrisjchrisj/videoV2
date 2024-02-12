@@ -38,80 +38,40 @@ class _sendVideoState extends State<sendVideo> {
     super.dispose();
   }
 
-Future<void> _stopRecordingAndUpload() async {
-  print('Attempting to stop recording...');
-  
-  // Stop the video recording
-  await _controller!.pause();
-
-  setState(() {
-    _isUploading = true;
-  });
-
-  try {
-    // Call the method to upload the video
-    await _sendVideoStream();
-
-    // Show upload success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Upload succeeded'),
-        backgroundColor: Colors.green,
-      ),
-    );
-  } catch (e) {
-    // Print and show upload failure message
-    print('Error uploading video: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Upload failed'),
-        backgroundColor: Colors.red,
-      ),
-    );
-  } finally {
-    setState(() {
-      _isUploading = false;
-    });
-  }
-}
-
-
-
-
-  //Future<void> _stopRecordingAndUpload() async {
+  Future<void> _stopRecordingAndUpload() async {
     // Stop the video recording
-    //await _controller!.pause();
+    await _controller!.pause();
 
-   // setState(() {
-    //  _isUploading = true;
-   // });
+    setState(() {
+      _isUploading = true;
+    });
 
-   // try {
-    //  await _sendVideoStream();
+    try {
+      await _sendVideoStream();
       // Show upload success message
-     // ScaffoldMessenger.of(context).showSnackBar(
-       // SnackBar(
-        //  content: Text('Upload succeeded'),
-        //  backgroundColor: Colors.green,
-       // ),
-     // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Upload succeeded'),
+          backgroundColor: Colors.green,
+        ),
+      );
       // Delete the local copy of the video file
-     // await File(widget.imagepath.path).delete();
-    //} catch (e) {
-     // print(e);
+      await File(widget.imagepath.path).delete();
+    } catch (e) {
+      print(e);
       // Show upload failure message
-      //ScaffoldMessenger.of(context).showSnackBar(
-        //SnackBar(
-         // content: Text('Upload failed'),
-         // backgroundColor: Colors.red,
-       // ),
-      //);
-   // } finally {
-     // setState(() {
-      //  _isUploading = false;
-     // });
-    //}
- // }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Upload failed'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
 
   Future<void> _sendVideoStream() async {
     // Get the video file as bytes
