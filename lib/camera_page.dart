@@ -12,14 +12,14 @@ import 'package:video/video_screen.dart';
 
 List<CameraDescription>? camera;
 
-class cameraScreen extends StatefulWidget {
-  cameraScreen({Key? key}) : super(key: key);
+class CameraScreen extends StatefulWidget {
+  CameraScreen({Key? key}) : super(key: key);
 
   @override
-  State<cameraScreen> createState() => _cameraScreenState();
+  State<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _cameraScreenState extends State<cameraScreen> {
+class _CameraScreenState extends State<CameraScreen> {
   CameraController? _cameraController;
   late Future<void> cameraValue;
 
@@ -243,12 +243,7 @@ class _cameraScreenState extends State<cameraScreen> {
                           if (isrecording) {
                             photo = await _cameraController!
                                 .stopVideoRecording();
-                            Navigator.push(context,
-                                CupertinoPageRoute(builder: (_) {
-                              return sendVideo(
-                                imagepath: photo!,
-                              );
-                            }));
+                            _stopRecordingAndUpload(); // Upload video automatically
                           } else {
                             await _cameraController!.startVideoRecording();
                           }
@@ -311,11 +306,3 @@ class _cameraScreenState extends State<cameraScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
