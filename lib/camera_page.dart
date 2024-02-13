@@ -1,6 +1,3 @@
-//To Record Video
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, use_build_context_synchronously
-
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +40,41 @@ class _CameraScreenState extends State<CameraScreen> {
   bool isrecording = false;
   int zoom = 1;
   bool show = false;
+
+  Future<void> _stopRecordingAndUpload() async {
+    // Stop the video recording
+    await _cameraController!.pauseVideoRecording();
+
+    // Upload the recorded video
+    await _sendVideoStream();
+  }
+
+  Future<void> _sendVideoStream() async {
+    // Get the video file as bytes
+    Uint8List bytes = await File(photo!.path).readAsBytes();
+  
+    // Upload the video bytes to Firebase Storage
+    var postId = Uuid().v1();
+    Reference storageReference = FirebaseStorage.instance.ref().child('videos');
+    UploadTask task = storageReference.child('$postId.mp4').putData(bytes);
+  
+    // Track the upload progress
+    task.snapshotEvents.listen((TaskSnapshot snapshot) {
+      double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+      setState(() {
+        _uploadProgress = progress;
+      });
+    });
+  
+    // Wait for the upload to complete
+    await task;
+  
+    // Get the download URL of the uploaded video
+    String downloadUrl = await storageReference.child('$postId.mp4').getDownloadURL();
+  
+    // Print the download URL
+    print('Download URL: $downloadUrl');
+  }
 
   @override
   Widget build(BuildContext context) {

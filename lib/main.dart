@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
 import 'package:video/login_screen.dart';
@@ -9,7 +7,7 @@ import 'package:video/login_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(App());
 }
 
@@ -21,9 +19,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-    //home: MyApp()
-    home: LoginScreen(), // Navigate to LoginScreen
-    );    
+      home: LoginScreen(), // Navigate to LoginScreen
+    );
   }
 }
 
@@ -46,9 +43,9 @@ class _MyAppState extends State<MyApp> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => cameraScreen()));
+              MaterialPageRoute(builder: (context) => CameraScreen()));
         },
-        label: const Text('start'),
+        label: const Text('Start'),
       ),
     );
   }

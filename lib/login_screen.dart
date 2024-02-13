@@ -21,10 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       // Navigate to the camera page after successful login
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => cameraScreen()), // Navigate to cameraScreen
-      );
+      cameraScreen(); // Navigate to cameraScreen
     } catch (e) {
       // Handle sign-in errors here
       print('Sign-in error: $e');
@@ -36,6 +33,14 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
+  }
+
+  // Define the cameraScreen method
+  void cameraScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CameraScreen()),
+    );
   }
 
   @override
@@ -69,5 +74,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
