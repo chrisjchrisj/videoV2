@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,8 @@ import 'package:video_player/video_player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class sendVideo extends StatefulWidget {
-  XFile imagepath;
+  final XFile imagepath;
+
   sendVideo({Key? key, required this.imagepath}) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class _sendVideoState extends State<sendVideo> {
       ..initialize().then((_) {
         setState(() {});
       });
-    _storageReference = FirebaseStorage.instance.ref().child('videos');    
+    _storageReference = FirebaseStorage.instance.ref().child('videos');
   }
 
   @override
@@ -75,51 +75,38 @@ class _sendVideoState extends State<sendVideo> {
       });
     }
   }
-  
- 
-  
-  Future<void> resendVerificationEmail() async {
-    try {
-      User? user = FirebaseAuth.instance.currentUser;
-      if (user != null) {
-        await user.sendEmailVerification();
-        print('Verification email sent');
-      } else {
-        print('User not signed in');
-      }
-    } catch (e) {
-      print('Error sending verification email: $e');
-    }
-  }
-
-  
-  
-  
 
   Future<void> _sendVideoStream() async {
-    // Get the video file as bytes
-    Uint8List bytes = await File(widget.imagepath.path).readAsBytes();
-  
-    // Upload the video bytes to Firebase Storage
-    var postId = Uuid().v1();
-    UploadTask task = _storageReference.child('$postId.mp4').putData(bytes);
-  
-    // Track the upload progress
-    task.snapshotEvents.listen((TaskSnapshot snapshot) {
-      double progress = snapshot.bytesTransferred / snapshot.totalBytes;
-      setState(() {
-        _uploadProgress = progress;
+    try {
+      // Get the video file as bytes
+      Uint8List bytes = await File(widget.imagepath.path).readAsBytes();
+
+      // Upload the video bytes to Firebase Storage
+      var postId = Uuid().v1();
+      UploadTask task = _storageReference.child('$postId.mp4').putData(bytes);
+
+      // Track the upload progress
+      task.snapshotEvents.listen((TaskSnapshot snapshot) {
+        double progress = snapshot.bytesTransferred / snapshot.totalBytes;
+        setState(() {
+          _uploadProgress = progress;
+        });
       });
-    });
-  
-    // Wait for the upload to complete
-    await task;
-  
-    // Get the download URL of the uploaded video
-    String downloadUrl = await _storageReference.child('$postId.mp4').getDownloadURL();
-  
-    // Print the download URL
-    print('Download URL: $downloadUrl');
+
+      // Wait for the upload to complete
+      await task;
+
+      // Get the download URL of the uploaded video
+      String downloadUrl =
+          await _storageReference.child('$postId.mp4').getDownloadURL();
+
+      // Print the download URL
+      print('Download URL: $downloadUrl');
+    } catch (e) {
+      // Handle upload errors
+      print('Upload error: $e');
+      throw e; // Rethrow the exception to propagate it to the caller
+    }
   }
 
   @override
@@ -129,7 +116,8 @@ class _sendVideoState extends State<sendVideo> {
         leading: CupertinoButton(
           child: Icon(
             Icons.arrow_back_ios,
-            color: Theme.of(context).bottomNavigationBarTheme.backgroundColor == Colors.white
+            color: Theme.of(context).bottomNavigationBarTheme.backgroundColor ==
+                    Colors.white
                 ? Colors.black
                 : Colors.white,
           ),
@@ -137,7 +125,8 @@ class _sendVideoState extends State<sendVideo> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        backgroundColor:
+            Theme.of(context).bottomNavigationBarTheme.backgroundColor,
         actions: [
           Row(
             children: [
@@ -193,7 +182,9 @@ class _sendVideoState extends State<sendVideo> {
                   radius: 24,
                   child: Center(
                     child: Icon(
-                      _controller!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                      _controller!.value.isPlaying
+                          ? Icons.pause
+                          : Icons.play_arrow,
                       size: 28,
                       color: Colors.white,
                     ),
