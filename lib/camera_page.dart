@@ -1,12 +1,17 @@
-//
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, use_build_context_synchronously
+
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video/video_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 List<CameraDescription>? camera;
 
@@ -20,6 +25,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   CameraController? _cameraController;
   late Future<void> cameraValue;
+  double _uploadProgress = 0;
 
   @override
   void initState() {
@@ -53,12 +59,12 @@ class _CameraScreenState extends State<CameraScreen> {
   Future<void> _sendVideoStream() async {
     // Get the video file as bytes
     Uint8List bytes = await File(photo!.path).readAsBytes();
-  
+
     // Upload the video bytes to Firebase Storage
     var postId = Uuid().v1();
     Reference storageReference = FirebaseStorage.instance.ref().child('videos');
     UploadTask task = storageReference.child('$postId.mp4').putData(bytes);
-  
+
     // Track the upload progress
     task.snapshotEvents.listen((TaskSnapshot snapshot) {
       double progress = snapshot.bytesTransferred / snapshot.totalBytes;
@@ -66,13 +72,13 @@ class _CameraScreenState extends State<CameraScreen> {
         _uploadProgress = progress;
       });
     });
-  
+
     // Wait for the upload to complete
     await task;
-  
+
     // Get the download URL of the uploaded video
     String downloadUrl = await storageReference.child('$postId.mp4').getDownloadURL();
-  
+
     // Print the download URL
     print('Download URL: $downloadUrl');
   }
