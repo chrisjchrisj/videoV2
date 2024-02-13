@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
+import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,104 +8,69 @@ import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class sendVideo extends StatefulWidget {
-  final XFile imagepath;
-
-  sendVideo({Key? key, required this.imagepath}) : super(key: key);
-
+class VideoRecordingScreen extends StatefulWidget {
   @override
-  State<sendVideo> createState() => _sendVideoState();
+  State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
-class _sendVideoState extends State<sendVideo> {
-  VideoPlayerController? _controller;
-  bool _isUploading = false;
-  double _uploadProgress = 0;
-  late Reference _storageReference;
+class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+  late CameraController _controller;
+  late Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.file(File(widget.imagepath.path))
-      ..initialize().then((_) {
-        setState(() {});
-      });
-    _storageReference = FirebaseStorage.instance.ref().child('videos');
+    _controller = CameraController(
+      CameraDescription(),
+      ResolutionPreset.high,
+    );
+    _initializeControllerFuture = _controller.initialize();
   }
 
   @override
   void dispose() {
-    _controller!.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
-  Future<void> _stopRecordingAndUpload() async {
-    // Stop the video recording
-    await _controller!.pause();
-
-    setState(() {
-      _isUploading = true;
-    });
-
+  Future<void> _recordVideo() async {
     try {
-      await _sendVideoStream();
-      // Show upload success message
+      await _initializeControllerFuture;
+      final XFile video = await _controller.recordVideo();
+      // After recording, upload the video to Firebase Storage
+      await _uploadVideo(video);
+    } catch (e) {
+      print('Error recording video: $e');
+    }
+  }
+
+  Future<void> _uploadVideo(XFile video) async {
+    try {
+      // Upload the video file to Firebase Storage
+      final Reference storageReference = FirebaseStorage.instance.ref().child('videos');
+      final String postId = Uuid().v1();
+      final TaskSnapshot uploadTask = await storageReference.child('$postId.mp4').putFile(File(video.path));
+
+      // Once uploaded, get the download URL
+      final String downloadUrl = await uploadTask.ref.getDownloadURL();
+      print('Download URL: $downloadUrl');
+
+      // Show success message or navigate to another screen
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Upload succeeded'),
           backgroundColor: Colors.green,
         ),
       );
-      // Navigate back to camera_page.dart
-      Navigator.pop(context);
     } catch (e) {
-      print(e);
-      // Show upload failure message
+      print('Error uploading video: $e');
+      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Upload failed'),
           backgroundColor: Colors.red,
         ),
       );
-      // Navigate back to camera_page.dart
-      Navigator.pop(context);
-    } finally {
-      setState(() {
-        _isUploading = false;
-      });
-    }
-  }
-
-  Future<void> _sendVideoStream() async {
-    try {
-      // Get the video file as bytes
-      Uint8List bytes = await File(widget.imagepath.path).readAsBytes();
-
-      // Upload the video bytes to Firebase Storage
-      var postId = Uuid().v1();
-      UploadTask task = _storageReference.child('$postId.mp4').putData(bytes);
-
-      // Track the upload progress
-      task.snapshotEvents.listen((TaskSnapshot snapshot) {
-        double progress = snapshot.bytesTransferred / snapshot.totalBytes;
-        setState(() {
-          _uploadProgress = progress;
-        });
-      });
-
-      // Wait for the upload to complete
-      await task;
-
-      // Get the download URL of the uploaded video
-      String downloadUrl =
-          await _storageReference.child('$postId.mp4').getDownloadURL();
-
-      // Print the download URL
-      print('Download URL: $downloadUrl');
-    } catch (e) {
-      // Handle upload errors
-      print('Upload error: $e');
-      throw e; // Rethrow the exception to propagate it to the caller
     }
   }
 
@@ -113,87 +78,21 @@ class _sendVideoState extends State<sendVideo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: CupertinoButton(
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Theme.of(context).bottomNavigationBarTheme.backgroundColor ==
-                    Colors.white
-                ? Colors.black
-                : Colors.white,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor:
-            Theme.of(context).bottomNavigationBarTheme.backgroundColor,
-        actions: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.crop,
-                ),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.emoji_emotions,
-                ),
-              ),
-            ],
-          )
-        ],
+        title: Text('Video Recording'),
       ),
-      backgroundColor: Colors.black,
-      body: SafeArea(
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
-                child: VideoPlayer(_controller!),
-              ),
-            ),
-            if (_isUploading)
-              Positioned(
-                bottom: 20,
-                child: Container(
-                  padding: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    '${(_uploadProgress * 100).toStringAsFixed(1)}% Uploaded',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            Center(
-              child: InkWell(
-                onTap: _stopRecordingAndUpload,
-                child: CircleAvatar(
-                  backgroundColor: Colors.black.withOpacity(0.4),
-                  radius: 24,
-                  child: Center(
-                    child: Icon(
-                      _controller!.value.isPlaying
-                          ? Icons.pause
-                          : Icons.play_arrow,
-                      size: 28,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return CameraPreview(_controller);
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _recordVideo,
+        child: Icon(Icons.camera_alt),
       ),
     );
   }
