@@ -19,7 +19,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyApp());
+    return MaterialApp(
+    //home: MyApp()
+    home: LoginScreen(), // Navigate to LoginScreen
+    );    
   }
 }
 
