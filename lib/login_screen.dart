@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:video/video_screen.dart'; // Import the video screen file
+import 'package:video/camera_page.dart'; // Import the video screen file
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,10 +19,10 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      // Navigate to the video screen after successful login
+      // Navigate to the camera page after successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => VideoScreen()), // Navigate to VideoScreen
+        MaterialPageRoute(builder: (context) => CameraPage()), // Navigate to CameraPage
       );
     } catch (e) {
       // Handle sign-in errors here
