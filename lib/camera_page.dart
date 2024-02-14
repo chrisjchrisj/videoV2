@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, use_build_context_synchronously
-
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -50,15 +48,19 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future<void> _stopRecordingAndUpload() async {
     // Stop the video recording
-    await _cameraController!.pauseVideoRecording();
+    XFile? videoFile = await _cameraController!.stopVideoRecording();
 
-    // Upload the recorded video
-    await _sendVideoStream();
+    // Upload the recorded video if a file was successfully created
+    if (videoFile != null) {
+      await _sendVideoStream(videoFile);
+    } else {
+      print('Failed to stop video recording');
+    }
   }
 
-  Future<void> _sendVideoStream() async {
+  Future<void> _sendVideoStream(XFile videoFile) async {
     // Get the video file as bytes
-    Uint8List bytes = await File(photo!.path).readAsBytes();
+    Uint8List bytes = await File(videoFile.path).readAsBytes();
 
     // Upload the video bytes to Firebase Storage
     var postId = Uuid().v1();
