@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
 import 'package:video/login_screen.dart';
 
+List<CameraDescription>? camera;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras();
@@ -42,8 +44,10 @@ class _MyAppState extends State<MyApp> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CameraScreen()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CameraScreen()),
+          );
         },
         label: const Text('Start'),
       ),
