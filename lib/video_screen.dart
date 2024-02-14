@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,9 +36,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     try {
       await _initializeControllerFuture;
       final XFile video = await _controller.recordVideo();
-
-      // Upload the video to Firebase Storage after recording
-      await _uploadVideo(video);
+      // After recording, upload the video to Firebase Storage
+      await _uploadVideo(video); // Upload video here
     } catch (e) {
       print('Error recording video: $e');
     }
@@ -45,17 +45,16 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   Future<void> _uploadVideo(XFile video) async {
     try {
-      final Reference storageReference =
-          FirebaseStorage.instance.ref().child('videos');
+      // Upload the video file to Firebase Storage
+      final Reference storageReference = FirebaseStorage.instance.ref().child('videos');
       final String postId = Uuid().v1();
-      final TaskSnapshot uploadTask = await storageReference
-          .child('$postId.mp4')
-          .putFile(File(video.path));
+      final TaskSnapshot uploadTask = await storageReference.child('$postId.mp4').putFile(File(video.path));
 
-      final String downloadUrl =
-          await uploadTask.ref.getDownloadURL();
+      // Once uploaded, get the download URL
+      final String downloadUrl = await uploadTask.ref.getDownloadURL();
       print('Download URL: $downloadUrl');
 
+      // Show success message or navigate to another screen
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Upload succeeded'),
@@ -64,6 +63,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       );
     } catch (e) {
       print('Error uploading video: $e');
+      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Upload failed'),
