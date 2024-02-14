@@ -45,6 +45,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   Future<void> _uploadVideo(XFile video) async {
     try {
+      print('Uploading video...');
+
       // Upload the video file to Firebase Storage
       final Reference storageReference = FirebaseStorage.instance.ref().child('videos');
       final String postId = Uuid().v1();
