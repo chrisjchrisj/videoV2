@@ -5,8 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'package:video_player/video_player.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
   @override
@@ -38,7 +36,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       await _initializeControllerFuture;
       final XFile video = await _controller.recordVideo();
       // After recording, upload the video to Firebase Storage
-      await _uploadVideo(video);
+      await _uploadVideo(video); // Upload video here
     } catch (e) {
       print('Error recording video: $e');
     }
