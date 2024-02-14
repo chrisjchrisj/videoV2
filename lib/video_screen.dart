@@ -35,8 +35,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     try {
       await _initializeControllerFuture;
       final XFile video = await _controller.recordVideo();
-      // After recording, upload the video to Firebase Storage
-      await _uploadVideo(video); // Upload video here
+
+      // Upload the video to Firebase Storage after recording
+      await _uploadVideo(video);
     } catch (e) {
       print('Error recording video: $e');
     }
@@ -44,16 +45,17 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   Future<void> _uploadVideo(XFile video) async {
     try {
-      // Upload the video file to Firebase Storage
-      final Reference storageReference = FirebaseStorage.instance.ref().child('videos');
+      final Reference storageReference =
+          FirebaseStorage.instance.ref().child('videos');
       final String postId = Uuid().v1();
-      final TaskSnapshot uploadTask = await storageReference.child('$postId.mp4').putFile(File(video.path));
+      final TaskSnapshot uploadTask = await storageReference
+          .child('$postId.mp4')
+          .putFile(File(video.path));
 
-      // Once uploaded, get the download URL
-      final String downloadUrl = await uploadTask.ref.getDownloadURL();
+      final String downloadUrl =
+          await uploadTask.ref.getDownloadURL();
       print('Download URL: $downloadUrl');
 
-      // Show success message or navigate to another screen
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Upload succeeded'),
@@ -62,7 +64,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       );
     } catch (e) {
       print('Error uploading video: $e');
-      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Upload failed'),
