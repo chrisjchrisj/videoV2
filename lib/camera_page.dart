@@ -21,7 +21,9 @@ class _CameraScreenState extends State<CameraScreen> {
   late Future<void> cameraValue;
   @override
   void initState() {
-    _cameraController = CameraController(camera![0], ResolutionPreset.high);
+    //_cameraController = CameraController(camera![0], ResolutionPreset.high);
+    _cameraController = CameraController(camera!.first, ResolutionPreset.high);
+
     cameraValue = _cameraController!.initialize();
     super.initState();
   }
