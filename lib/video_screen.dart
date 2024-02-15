@@ -55,8 +55,8 @@ class _sendVideoState extends State<sendVideo> {
           backgroundColor: Colors.green,
         ),
       );
-      // Delete the local copy of the video file
-      await File(widget.imagepath.path).delete();
+      // Navigate back to camera_page.dart
+      Navigator.pop(context);
     } catch (e) {
       print(e);
       // Show upload failure message
@@ -66,6 +66,8 @@ class _sendVideoState extends State<sendVideo> {
           backgroundColor: Colors.red,
         ),
       );
+      // Navigate back to camera_page.dart
+      Navigator.pop(context);
     } finally {
       setState(() {
         _isUploading = false;
@@ -102,14 +104,7 @@ class _sendVideoState extends State<sendVideo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: _isUploading
-          ? CircularProgressIndicator()
-          : FloatingActionButton(
-              onPressed: _stopRecordingAndUpload,
-              child: Icon(Icons.stop),
-            ),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         leading: CupertinoButton(
           child: Icon(
             Icons.arrow_back_ios,
@@ -155,30 +150,23 @@ class _sendVideoState extends State<sendVideo> {
               ),
             ),
             if (_isUploading)
-              Positioned.fill(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    value: _uploadProgress,
-                    strokeWidth: 10,
+              Positioned(
+                bottom: 20,
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: Text(
+                    '${(_uploadProgress * 100).toStringAsFixed(1)}% Uploaded',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
-            SizedBox(
-              height: 20,
-            ),
             Center(
               child: InkWell(
-                onTap: () {
-                  if (_controller!.value.isPlaying) {
-                    setState(() {
-                      _controller!.pause();
-                    });
-                  } else {
-                    setState(() {
-                      _controller!.play();
-                    });
-                  }
-                },
+                onTap: _stopRecordingAndUpload,
                 child: CircleAvatar(
                   backgroundColor: Colors.black.withOpacity(0.4),
                   radius: 24,
