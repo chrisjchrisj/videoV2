@@ -13,7 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> _signInWithEmailAndPassword() async {
+  Future<void> _signInWithEmailAndPassword(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text.trim(),
@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       // Navigate to the camera page after successful login
-      cameraScreen(); // Navigate to cameraScreen
+      cameraScreen(context); // Navigate to cameraScreen
     } catch (e) {
       // Handle sign-in errors here
       print('Sign-in error: $e');
@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   // Define the cameraScreen method
-  void cameraScreen() {
+  void cameraScreen(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => CameraScreen()),
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _signInWithEmailAndPassword,
+              onPressed: () => _signInWithEmailAndPassword(context),
               child: Text('Sign In'),
             ),
           ],
