@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:camera/camera.dart'; // Import the camera package
 import 'package:video/camera_page.dart'; // Import the camera page file
-
-List<CameraDescription>? cameras; // Declare a list of cameras
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras(); // Initialize the list of cameras
-  runApp(MaterialApp(home: LoginScreen()));
-}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -46,15 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // Define the cameraScreen method
   void cameraScreen() {
-    if (cameras != null && cameras!.isNotEmpty) { // Check if cameras list is not null or empty
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => CameraScreen(cameras![0])),
-      );
-    } else {
-      // Handle the case where no cameras are available
-      print('No cameras available');
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => CameraScreen()),
+    );
   }
 
   @override
