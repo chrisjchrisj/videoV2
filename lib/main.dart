@@ -2,7 +2,6 @@ import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
-//import 'package:video/my_app.dart'; // Import MyApp
 
 List<CameraDescription>? camera;
 
@@ -21,7 +20,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MyApp(), // Set MyApp as the home widget
+      home: CameraScreen(), // Display CameraScreen directly
     );
   }
 }
