@@ -1,8 +1,8 @@
-//0216-918
+//0216-258
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:video/camera_page.dart'; // Import the cameraScreen class
+import 'package:video/camera_page.dart';
 
 List<CameraDescription>? camera;
 
@@ -21,8 +21,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: cameraScreen(), // Display cameraScreen directly
+      home: CameraScreen(), // Use CameraScreen instead of cameraScreen
     );
   }
 }
-
