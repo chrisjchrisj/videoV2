@@ -1,14 +1,14 @@
-//0216-258
-import 'package:camera/camera.dart';
+//0217-823
+import 'package:camera/camera.dart'; // Import the camera package
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:video/camera_page.dart';
 
-List<CameraDescription>? camera;
+List<CameraDescription>? camera; // Declare the camera list
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  camera = await availableCameras();
+  camera = await availableCameras(); // Initialize the camera list
   await Firebase.initializeApp();
   runApp(App());
 }

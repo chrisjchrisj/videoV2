@@ -1,4 +1,4 @@
-//021624-313
+//0217-823
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +20,9 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   void initState() {
-    _cameraController = CameraController(camera!.first, ResolutionPreset.high);
-    _cameraValue = _initializeCamera();
     super.initState();
+    _cameraController = CameraController(camera![0], ResolutionPreset.high);
+    _cameraValue = _initializeCamera();
   }
 
   Future<void> _initializeCamera() async {
