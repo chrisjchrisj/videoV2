@@ -1,4 +1,4 @@
-//0217-823
+//0217-848
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video/video_screen.dart';
 
 class CameraScreen extends StatefulWidget {
-  const CameraScreen({Key? key}) : super(key: key);
+  CameraScreen({Key? key}) : super(key: key);
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -21,12 +21,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController(camera![0], ResolutionPreset.high);
-    _cameraValue = _initializeCamera();
-  }
-
-  Future<void> _initializeCamera() async {
-    await _cameraController.initialize();
+    _initializeCamera();
   }
 
   @override
@@ -35,44 +30,16 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
-  bool flip = true;
-  bool flash = false;
-  XFile? photo;
-  bool isRecording = false;
-  int zoom = 1;
-  bool show = false;
+  Future<void> _initializeCamera() async {
+    final cameras = await availableCameras();
+    _cameraController = CameraController(cameras[0], ResolutionPreset.high);
+    _cameraValue = _cameraController.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBodyBehindAppBar: true,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            FutureBuilder<void>(
-              future: _cameraValue,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return GestureDetector(
-                  onTap: () async {
-                    await _cameraController.setFocusMode(FocusMode.auto);
-                  },
-                  onLongPress: () async {
-                    await _cameraController.setFocusMode(FocusMode.locked);
-                  },
-                  child: CameraPreview(_cameraController),
-                );
-              },
-            ),
-            // Other widgets...
-          ],
-        ),
-      ),
+      // Your camera screen UI code goes here
     );
   }
 }
