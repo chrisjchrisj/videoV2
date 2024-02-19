@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply from: "$flutter.sdk/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 31
@@ -9,17 +9,15 @@ android {
         applicationId "com.example.video"
         minSdkVersion 21
         targetSdkVersion 31
-        def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-        def flutterVersionName = localProperties.getProperty('flutter.versionName')
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true // Add this line if multidex is needed
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
             'flutter.appName': "video",
-            'flutter.sdk': flutterRoot,
-            'flutter.versionName': flutterVersionName,
-            'flutter.versionCode': flutterVersionCode,
+            'flutter.sdk': flutter.sdk, // Change flutterRoot to flutter.sdk
+            'flutter.versionName': flutter.versionName,
+            'flutter.versionCode': flutter.versionCode,
         ]
     }
 
