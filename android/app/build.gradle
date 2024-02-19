@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-apply from: "C:\flutter\packages\flutter_tools\gradle\flutter.gradle"
+apply from: 'C:\flutter\packages\flutter_tools\gradle\flutter.gradle'
 
 android {
     compileSdkVersion 31
