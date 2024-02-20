@@ -2,19 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$project.flutterSdkPath/packages/flutter_tools/gradle/flutter.gradle"
 
-// Define flutterVersionCode and flutterVersionName properties
-def flutterVersionCode = 2 // Increment the version code for each release
-def flutterVersionName = "1.0.0" // Set the version name as needed
-
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33 // Updated compileSdkVersion
 
     defaultConfig {
         applicationId "com.example.video"
         minSdkVersion 21
         targetSdkVersion 31
-        // Use flutterVersionCode and flutterVersionName
-        versionCode flutterVersionCode.toInteger()
+        // Define flutterVersionCode property
+        def flutterVersionCode = 2 // Increment the version code for each release
+         // Use flutterVersionCode in versionCode
+         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true // Add this line if multidex is needed
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
