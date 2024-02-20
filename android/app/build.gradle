@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply from: "$flutter.sdk/packages/flutter_tools/gradle/flutter.gradle"
+apply from: "$project.flutterSdkPath/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     compileSdkVersion 31
@@ -15,9 +15,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
             'flutter.appName': "video",
-            'flutter.sdk': flutter.sdk, // Change flutterRoot to flutter.sdk
-            'flutter.versionName': flutter.versionName,
-            'flutter.versionCode': flutter.versionCode,
+            'flutter.sdk': "$project.flutterSdkPath", // Change flutter.sdk to project.flutterSdkPath
+            'flutter.versionName': flutterVersionName,
+            'flutter.versionCode': flutterVersionCode,
         ]
     }
 
@@ -47,6 +47,8 @@ dependencies {
 
     implementation 'com.android.support.constraint:constraint-layout:2.1.3' // ConstraintLayout
 }
+
+def flutterSdkPath = hasProperty('flutterSdkPath') ? flutterSdkPath : System.getenv('FLUTTER_SDK_PATH')
 
 flutter {
     source '../..'
