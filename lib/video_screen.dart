@@ -10,7 +10,7 @@ import 'package:video_player/video_player.dart';
 
 class sendVideo extends StatefulWidget {
   XFile imagepath;
-  sendVideo({Key? key, required this.imagepath}) : super(key: key);
+  sendVideo({super.key, required this.imagepath});
 
   @override
   State<sendVideo> createState() => _sendVideoState();
@@ -50,7 +50,7 @@ class _sendVideoState extends State<sendVideo> {
       await _sendVideoStream();
       // Show upload success message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Upload succeeded'),
           backgroundColor: Colors.green,
         ),
@@ -61,7 +61,7 @@ class _sendVideoState extends State<sendVideo> {
       print(e);
       // Show upload failure message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Upload failed'),
           backgroundColor: Colors.red,
         ),
@@ -80,7 +80,7 @@ class _sendVideoState extends State<sendVideo> {
     Uint8List bytes = await File(widget.imagepath.path).readAsBytes();
   
     // Upload the video bytes to Firebase Storage
-    var postId = Uuid().v1();
+    var postId = const Uuid().v1();
     UploadTask task = _storageReference.child('$postId.mp4').putData(bytes);
   
     // Track the upload progress
@@ -122,13 +122,13 @@ class _sendVideoState extends State<sendVideo> {
             children: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.crop,
                 ),
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.emoji_emotions,
                 ),
               ),
@@ -141,7 +141,7 @@ class _sendVideoState extends State<sendVideo> {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Container(
+            SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: AspectRatio(
@@ -153,14 +153,14 @@ class _sendVideoState extends State<sendVideo> {
               Positioned(
                 bottom: 20,
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Text(
                     '${(_uploadProgress * 100).toStringAsFixed(1)}% Uploaded',
-                    style: TextStyle(color: Colors.white),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ),

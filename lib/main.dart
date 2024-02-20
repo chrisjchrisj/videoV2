@@ -10,17 +10,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras(); // Initialize the camera list
   await Firebase.initializeApp();
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
   const App({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: CameraScreen(), // Use CameraScreen instead of cameraScreen
     );
   }

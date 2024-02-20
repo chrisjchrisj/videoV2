@@ -4,17 +4,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
 List<CameraDescription>? camera;
 
 class CameraScreen extends StatefulWidget {
-  CameraScreen({Key? key}) : super(key: key);
+  const CameraScreen({super.key});
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -51,19 +48,15 @@ class _CameraScreenState extends State<CameraScreen> {
     XFile? videoFile = await _cameraController!.stopVideoRecording();
 
     // Upload the recorded video if a file was successfully created
-    if (videoFile != null) {
-      await _sendVideoStream(videoFile);
-    } else {
-      print('Failed to stop video recording');
+    await _sendVideoStream(videoFile);
     }
-  }
 
   Future<void> _sendVideoStream(XFile videoFile) async {
     // Get the video file as bytes
     Uint8List bytes = await File(videoFile.path).readAsBytes();
 
     // Upload the video bytes to Firebase Storage
-    var postId = Uuid().v1();
+    var postId = const Uuid().v1();
     Reference storageReference = FirebaseStorage.instance.ref().child('videos');
     UploadTask task = storageReference.child('$postId.mp4').putData(bytes);
 
@@ -97,7 +90,7 @@ class _CameraScreenState extends State<CameraScreen> {
               future: cameraValue,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -121,7 +114,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.close,
                       color: Colors.white,
                     ),
@@ -164,7 +157,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     children: [
                       Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                           !flip
@@ -183,7 +176,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                         await _cameraController!
                                             .setZoomLevel(zoom.toDouble());
                                       },
-                                      child: CircleAvatar(
+                                      child: const CircleAvatar(
                                         radius: 20,
                                         backgroundColor: Colors.white30,
                                         child: Text(
@@ -202,7 +195,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                                 .setZoomLevel(
                                                     zoom.toDouble());
                                           },
-                                          child: CircleAvatar(
+                                          child: const CircleAvatar(
                                             radius: 20,
                                             backgroundColor: Colors.white30,
                                             child: Text(
@@ -222,7 +215,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                                     .setZoomLevel(
                                                         zoom.toDouble());
                                               },
-                                              child: CircleAvatar(
+                                              child: const CircleAvatar(
                                                 radius: 20,
                                                 backgroundColor: Colors.white30,
                                                 child: Text(
@@ -247,7 +240,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                                 backgroundColor: Colors.white30,
                                                 child: Text(
                                                   '${zoom}x',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white),
                                                 ),
                                               ),
@@ -311,7 +304,7 @@ class _CameraScreenState extends State<CameraScreen> {
                               camera![n], ResolutionPreset.high);
                           cameraValue = _cameraController!.initialize();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.camera_roll,
                           color: Colors.white,
                         ),
@@ -319,7 +312,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     ],
                   ),
                   show
-                      ? Container(
+                      ? SizedBox(
                           width: 300,
                           child: Slider(
                               max: 10,
@@ -334,7 +327,7 @@ class _CameraScreenState extends State<CameraScreen> {
                                 });
                               }),
                         )
-                      : Text(
+                      : const Text(
                           'Tap: Start Recording & Tap: Stop Recording',
                           style: TextStyle(color: Colors.grey),
                         )

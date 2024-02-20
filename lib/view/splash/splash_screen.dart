@@ -29,15 +29,15 @@ class _SplashScreenState extends State<SplashScreen> {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(.2),
-                offset: Offset(1, 1)
+                offset: const Offset(1, 1)
               ),
               BoxShadow(
                   color: Colors.grey.withOpacity(.2),
-                  offset: Offset(-1, -1)
+                  offset: const Offset(-1, -1)
               )
             ]
           ),
-          child: Icon(FontAwesomeIcons.candyCane,color: Colors.pinkAccent,size: 50,),
+          child: const Icon(FontAwesomeIcons.candyCane,color: Colors.pinkAccent,size: 50,),
         ),
       ),
     );

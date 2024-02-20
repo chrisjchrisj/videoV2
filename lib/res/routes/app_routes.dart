@@ -11,7 +11,7 @@ class AppRoutes{
       GetPage(name: Routes.splashScreen, page: ()=>const SplashScreen()),
       GetPage(name: Routes.signUpScreen, page: ()=>const SignUp()),
       GetPage(name: Routes.signInScreen, page: ()=>const SignIn()),
-      GetPage(name: Routes.homePage, page: ()=> HomePage()),
+      GetPage(name: Routes.homePage, page: ()=> const HomePage()),
     ];
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video/view/common%20widgets/back_button.dart';
 
-import '../../../res/app_color.dart';
 
 class SignUpBar extends StatelessWidget {
   const SignUpBar({super.key});

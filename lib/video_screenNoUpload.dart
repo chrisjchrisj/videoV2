@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
+  const VideoRecordingScreen({super.key});
+
   @override
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
@@ -20,7 +21,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   void initState() {
     super.initState();
     _controller = CameraController(
-      CameraDescription(),
+      const CameraDescription(),
       ResolutionPreset.high,
     );
     _initializeControllerFuture = _controller.initialize();
@@ -47,7 +48,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     try {
       // Upload the video file to Firebase Storage
       final Reference storageReference = FirebaseStorage.instance.ref().child('videos');
-      final String postId = Uuid().v1();
+      final String postId = const Uuid().v1();
       final TaskSnapshot uploadTask = await storageReference.child('$postId.mp4').putFile(File(video.path));
 
       // Once uploaded, get the download URL
@@ -56,7 +57,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
       // Show success message or navigate to another screen
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Upload succeeded'),
           backgroundColor: Colors.green,
         ),
@@ -65,7 +66,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
       print('Error uploading video: $e');
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Upload failed'),
           backgroundColor: Colors.red,
         ),
@@ -77,7 +78,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video Recording'),
+        title: const Text('Video Recording'),
       ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
@@ -85,13 +86,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return CameraPreview(_controller);
           } else {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _recordVideo,
-        child: Icon(Icons.camera_alt),
+        child: const Icon(Icons.camera_alt),
       ),
     );
   }

@@ -8,13 +8,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   camera = await availableCameras();
   await Firebase.initializeApp();
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
   const App({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class App extends StatelessWidget {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CameraScreen()));
+              MaterialPageRoute(builder: (context) => const CameraScreen()));
         },
         label: const Text('Start'),
       ),
