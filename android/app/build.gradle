@@ -1,3 +1,4 @@
+//022024
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$project.flutterSdkPath/packages/flutter_tools/gradle/flutter.gradle"
